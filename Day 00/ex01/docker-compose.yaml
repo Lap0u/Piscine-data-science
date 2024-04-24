@@ -11,6 +11,16 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_USER=cbeaurai
       - POSTGRES_DB=piscineds
+  pgadmin:
+    image: dpage/pgadmin4:8.5
+    ports:
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=cbeaurai@student.42.fr
+      - PGADMIN_DEFAULT_PASSWORD=mysecretpassword
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
 
 volumes:
   local_pgdata:
+  pgadmin-data:
