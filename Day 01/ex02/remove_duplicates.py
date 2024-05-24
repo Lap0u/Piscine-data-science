@@ -18,11 +18,11 @@ def connect_to_database():
 
 
 def create_database(conn):
-    """Create a new database called python_db3."""
+    """Create a new database called python_db2."""
     cur = conn.cursor()
     conn.set_session(autocommit=True)
 
-    cur.execute("CREATE DATABASE python_db3")
+    cur.execute("CREATE DATABASE python_db2")
 
     # Commit the changes and close the connection to the default database
     conn.commit()
@@ -35,7 +35,7 @@ def main():
     conn = connect_to_database()
     create_database(conn)
     engine = create_engine(
-        "postgresql://cbeaurai:mysecretpassword@localhost:5432/python_db3"
+        "postgresql://cbeaurai:mysecretpassword@localhost:5432/python_db2"
     )
     type = {
         "event_time": DateTime,
@@ -53,9 +53,16 @@ def main():
         curr_df = pd.read_csv(complete_path)
         df = pd.concat([df, curr_df])
     print(df, df.shape)
-    df.drop_duplicates(keep='first', inplace=True)
+    df.drop_duplicates(keep="first", inplace=True)
     print(df, df.shape)
-    df.to_sql("customers", engine, if_exists="replace", index=False, dtype=type, chunksize=1000000)
+    df.to_sql(
+        "customers",
+        engine,
+        if_exists="replace",
+        index=False,
+        dtype=type,
+        chunksize=1000000,
+    )
 
 
 if __name__ == "__main__":

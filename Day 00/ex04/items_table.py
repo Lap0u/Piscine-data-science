@@ -31,7 +31,7 @@ def create_database(conn):
 
 def create_table(path, engine, type):
     """Create a table in the database with the data from the CSV file."""
-    table_name = "items"
+    table_name = "item"
     df = pd.read_csv(path)
     df.to_sql(table_name, engine, if_exists="replace", index=False, dtype=type)
 
@@ -49,7 +49,7 @@ def main():
         "category_code": String,
         "brand": String,
     }
-    create_table("./items/item.csv", engine, type)
+    create_table("./item/item.csv", engine, type)
 
 
 if __name__ == "__main__":

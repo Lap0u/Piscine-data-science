@@ -18,11 +18,11 @@ def connect_to_database():
 
 
 def create_database(conn):
-    """Create a new database called python_db10."""
+    """Create a new database called python_db3."""
     cur = conn.cursor()
     conn.set_session(autocommit=True)
 
-    cur.execute("CREATE DATABASE python_db10")
+    cur.execute("CREATE DATABASE python_db3")
 
     # Commit the changes and close the connection to the default database
     conn.commit()
@@ -35,7 +35,7 @@ def main():
     conn = connect_to_database()
     create_database(conn)
     engine = create_engine(
-        "postgresql://cbeaurai:mysecretpassword@localhost:5432/python_db10"
+        "postgresql://cbeaurai:mysecretpassword@localhost:5432/python_db3"
     )
     type = {
         "event_time": DateTime,
@@ -60,7 +60,14 @@ def main():
     df_items = df_items.drop_duplicates(subset=["product_id"])
     df_merged = pd.merge(df_customer, df_items, on="product_id", how="outer")
 
-    df_merged.to_sql("customers", engine, if_exists="replace", index=False, dtype=type, chunksize=1000000)
+    df_merged.to_sql(
+        "customers",
+        engine,
+        if_exists="replace",
+        index=False,
+        dtype=type,
+        chunksize=1000000,
+    )
 
 
 if __name__ == "__main__":
